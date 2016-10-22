@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import session
+
 def menu(options):
     for i,o in enumerate(options):
         print(str(i) + '. ' + str(o))
@@ -37,6 +39,8 @@ class TextUI:
 
         actions = {
             'Exit': self.stop,
+            'Save a session': self.save_session,
+            'Restore a session':self.restore_session,
         }
 
         self.loop = True
@@ -47,6 +51,22 @@ class TextUI:
     def stop(self):
         """ End the main menu loop. """
         self.loop = False
+
+    def save_session(self):
+        name = input('Enter session name: ')
+        ses = session.Session(name)
+        choice = ''
+        while choice != 'Finish':
+            choice = menu(['Finish', 'Click on window']+ses.list_windows())
+            if choice == 'Click on window':
+                ses.add_window_by_clicking()
+            elif choice == 'Finish':
+                pass
+            else:
+                ses.add_window(choice)
+
+    def restore_session(self):
+        pass
 
 
 
