@@ -54,7 +54,12 @@ class TextUI:
 
     def save_session(self):
         name = input('Enter session name: ')
-        ses = session.Session(name)
+        try:
+            ses = session.Session(name)
+        except FileExistsError:
+            print('ERROR: session already exists. Aborting')
+            return
+
         choice = ''
         while choice != 'Finish':
             choice = menu(['Finish', 'Click on window']+ses.list_windows())
@@ -64,6 +69,8 @@ class TextUI:
                 pass
             else:
                 ses.add_window(choice)
+
+        ses.save_session()
 
     def restore_session(self):
         pass
