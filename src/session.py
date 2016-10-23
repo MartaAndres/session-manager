@@ -8,6 +8,8 @@ import warnings
 class Session:
     """ Directory for saving sessions. """
     home = "/home/mandres/Documents/git/session-manager/sessions/"
+    if not os.path.isdir(home):
+        os.mkdir(home)
 
     def __init__(self, name, exists=False):
         self.name = name

@@ -8,6 +8,7 @@ class ManualProgram(abstract.AbstractProgram):
         return ()
 
     def save(directory, info):
+        print('SAVING: '+info['title']+' ('+info['wid']+')')
         print('A dedicated class for the window could not be found.')
         print('Please enter shell commands to run when recovering program.')
         print(' (Press Ctrl+D to finish)')

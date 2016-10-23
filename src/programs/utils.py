@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import subprocess
+import shlex
 
 def command(cmd):
     """ Run a bash command and return the output as a string. """
-    return subprocess.check_output(cmd.split()).decode('utf-8')
+    return subprocess.check_output(shlex.split(cmd)).decode('utf-8')
 
 def launch(cmd):
     """ Run a bash command without waiting for it to finish. """
-    return subprocess.Popen(cmd.split())
+    return subprocess.Popen(shlex.split(cmd))
 
 def window_input(window, strings):
     """
