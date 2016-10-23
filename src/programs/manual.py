@@ -13,5 +13,5 @@ class ManualProgram(abstract.AbstractProgram):
         print(' (Press Ctrl+D to finish)')
         open(directory+'restore.sh','w').write(sys.stdin.read())
 
-    def restore(self, directory):
+    def restore(directory):
         utils.launch('bash '+directory+'restore.sh')

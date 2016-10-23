@@ -73,7 +73,10 @@ class TextUI:
         ses.save_session()
 
     def restore_session(self):
-        pass
+        choice = menu(session.Session.list_sessions())
+        ses = session.Session(choice, True)
+        ses.restore_session()
+
 
 
 

@@ -21,11 +21,11 @@ class AbstractProgram(object):
         raise NotImplementedError
 
     @staticmethod
-    def restore(self, directory):
+    def restore(directory):
         """ Restore a window from the information in the directory. """
         raise NotImplementedError
 
     @staticmethod
-    def close(self, info):
+    def close(info):
         """ Allow for commands before closing window. Not necessary. """
         pass

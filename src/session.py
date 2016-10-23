@@ -5,15 +5,16 @@ from programs import *
 import os
 import warnings
 
-""" Directory for saving sessions. """
-home = "/home/mandres/Documents/git/session-manager/sessions/"
-
 class Session:
-    def __init__(self, name):
+    """ Directory for saving sessions. """
+    home = "/home/mandres/Documents/git/session-manager/sessions/"
+
+    def __init__(self, name, exists=False):
         self.name = name
+        self.directory = os.path.join(Session.home,self.name)
+        if not exists:
+            os.mkdir(self.directory)
         self.windows = []
-        self.directory = os.path.join(home,name)
-        os.mkdir(self.directory)
 
     def list_windows(self, selected=True):
         """
@@ -71,9 +72,19 @@ class Session:
 
             self.find_program(info).save(directory, info)
 
+    def restore_session(self):
+        for d in (x for x in os.listdir(self.directory)
+                  if os.path.isdir(os.path.join(self.directory,x))):
+            info = {'program':d[d.find('_')+1:]}
+            self.find_program(info).restore(os.path.join(self.directory,d,''))
+
     @staticmethod
     def find_program(info):
         progs=dict((y,x) for x in abstract.AbstractProgram.__subclasses__()
                    for y in x.names())
         return progs.get(info['program'], manual.ManualProgram)
 
+    @staticmethod
+    def list_sessions():
+        return [x for x in os.listdir(Session.home)
+                if os.path.isdir(os.path.join(Session.home,x))]
