@@ -3,30 +3,28 @@
 import subprocess
 
 def command(cmd):
+    """ Run a bash command and return the output as a string. """
     return subprocess.check_output(cmd.split()).decode('utf-8')
 
 def launch(cmd):
+    """ Run a bash command without waiting for it to finish. """
     return subprocess.Popen(cmd.split())
 
 def window_input(window, strings):
-    # Modify strings with characters like :,-,/
-    special = {
-        ':':'colon',
-        '-':'minus',
-        '/':'slash',
-        ',':'comma',
-        '.':'period',
-        '_':'underscore',
-        '(':'parenleft',
-        ')':'parenright',
-        '"':'quotedbl',
-        '   ':' space ' # this one is special
-    }
+    """
+    Input strings or key combinations to a given window.
 
-    keys = ' '.join(y for x in strings for y in x)
-    for k in special:
-        keys = keys.replace(k,special[k])
-
-    cmd = 'xdotool key --window ' + window + ' ' + keys
-    command(cmd)
+    Window is given as a window identifier.
+    Strings is a list of strings or tuples with key combinations
+    to send to the window.
+    """
+    for s in strings:
+        if isinstance(s,str):
+            # Use unicode for every key
+            keys = ' '.join('U'+format(ord(x),'04x') for x in s)
+            cmd = 'xdotool key --window ' + window + ' ' + keys
+            command(cmd)
+        else:
+            cmd = 'xdotool key --window ' + window + ' ' + '+'.join(s)
+            command(cmd)
 
