@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from programs import utils
-import program
+from programs import *
 
 import os
 import warnings
@@ -13,7 +12,8 @@ class Session:
     def __init__(self, name):
         self.name = name
         self.windows = []
-        os.mkdir(os.path.join(home,name))
+        self.directory = os.path.join(home,name)
+        os.mkdir(self.directory)
 
     def list_windows(self, selected=True):
         """
@@ -23,9 +23,9 @@ class Session:
         been added to the session.
         """
 
-        windows = utils.command('wmctrl -lxp').strip()
+        windows = utils.command('wmctrl -lxp').strip().split('\n')
         return [x+(' ***' if int(x.split()[0],16) in self.windows else '')
-                for x in windows.split('\n')]
+                for x in windows]
 
     def add_window(self, window):
         """
@@ -38,11 +38,45 @@ class Session:
             self.windows.append(wid)
         else:
             warnings.warn('Window is already in the session')
+            return
 
     def add_window_by_clicking(self):
         """ Add a window by letting the user click on the desired window. """
         self.add_window(hex(int(utils.command('xdotool selectwindow'))))
 
     def save_session(self):
+        windows = utils.command('wmctrl -lxp').strip().split('\n')
         for i,wid in enumerate(self.windows):
-            print(str(i)+': '+str(wid))
+            res = [x for x in windows if int(x.split()[0],16) == wid]
+            if len(res) == 1:
+                res = res[0]
+            else:
+                warnings.warn('Ambiguous window id.')
+                return
+
+            # Take the fields from the result
+            res = res.split(' ')
+            fields = ['wid','desktop','pid','program','user'] # + title
+            info = {}
+            for f in fields:
+                while res[0] == '':
+                    del res[0]
+                info[f] = res[0]
+                del res[0]
+            info['title'] = ' '.join(res).strip()
+            print(info)
+
+            directory = os.path.join(self.directory, str(i)+'_'+info['program'])
+            os.mkdir(directory)
+
+            try:
+                self.find_program(info).save(directory, info)
+            except Exception as e:
+                warnings.warn('Error saving window '+info['wid']+': '+str(e))
+
+    @staticmethod
+    def find_program(info):
+        progs=dict((y,x) for x in abstract.AbstractProgram.__subclasses__()
+                   for y in x.names())
+        return progs.get(info['program'])
+
