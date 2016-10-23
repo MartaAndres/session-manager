@@ -64,19 +64,16 @@ class Session:
                 info[f] = res[0]
                 del res[0]
             info['title'] = ' '.join(res).strip()
-            print(info)
 
-            directory = os.path.join(self.directory, str(i)+'_'+info['program'])
+            directory = os.path.join(self.directory,
+                                     str(i)+'_'+info['program'], '')
             os.mkdir(directory)
 
-            try:
-                self.find_program(info).save(directory, info)
-            except Exception as e:
-                warnings.warn('Error saving window '+info['wid']+': '+str(e))
+            self.find_program(info).save(directory, info)
 
     @staticmethod
     def find_program(info):
         progs=dict((y,x) for x in abstract.AbstractProgram.__subclasses__()
                    for y in x.names())
-        return progs.get(info['program'])
+        return progs.get(info['program'], manual.ManualProgram)
 
