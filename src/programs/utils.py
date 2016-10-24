@@ -23,9 +23,9 @@ def window_input(window, strings):
         if isinstance(s,str):
             # Use unicode for every key
             keys = ' '.join('U'+format(ord(x),'04x') for x in s)
-            cmd = 'xdotool key --window ' + window + ' ' + keys
+            cmd = 'xdotool windowfocus ' + window + ' key ' + ' ' + keys
             command(cmd)
         else:
-            cmd = 'xdotool key --window ' + window + ' ' + '+'.join(s)
+            cmd = 'xdotool windowfocus ' + window + ' key ' + '+'.join(s)
             command(cmd)
 

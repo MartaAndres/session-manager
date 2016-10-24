@@ -11,4 +11,4 @@ class EmacsProgram(abstract.AbstractProgram):
         utils.window_input(info['wid'],keys)
 
     def restore(directory):
-        utils.launch('emacs --eval=\'(desktop-read "Documents/git/session-manager/sessions/test/0_emacs.Emacs/")\'')
+        utils.launch('emacs --eval=\'(desktop-read "' + directory + '")\'')
