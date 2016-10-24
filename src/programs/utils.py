@@ -22,14 +22,6 @@ def window_input(window, strings):
 
     wid = command('xdotool getwindowfocus')
     for s in strings:
-        # if isinstance(s,str):
-        #     # Use unicode for every key
-        #     keys = ' '.join('U'+format(ord(x),'04x') for x in s)
-        #     cmd = 'xdotool key --window ' + window + ' ' + ' ' + keys
-        #     command(cmd)
-        # else:
-        #     cmd = 'xdotool key --window ' + window + ' ' + '+'.join(s)
-        #     command(cmd)
         if isinstance(s,str):
             # Use unicode for every key
             keys = ' '.join('U'+format(ord(x),'04x') for x in s)
