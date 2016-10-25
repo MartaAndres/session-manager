@@ -10,16 +10,16 @@ The session manager relies on some command line arguments. Some may come with th
 On ubuntu, you will need to install:
 
  - `wmctrl`
- - `xwininfo`
+ - `xdotool`
  - `xclip`
 
-Both can be installed on ubuntu with `apt-get`.
+All of the above can be installed on ubuntu with `apt-get`.
 
 **Note**: This section is incomplete and dependent on linux distributions. Feel free to add to it with a pull request or an issue.
 
 ### Source code
 
-Clone or download the repo to get the source code. It uses python3 which usually comes with the distros, otherwise you will need to install it.
+Clone or download the repo to get the source code. It uses `python3` which usually comes with the distros, otherwise you will need to install it.
 
 ## Usage
 
@@ -123,4 +123,4 @@ The program is still very new and in development, so there are some features in 
  - GUI instead of a text interface to make the program easier to use
  - Added functionality such as closing a session, saving a session periodically, and keeping different versions of a session
  - Possibly allow a window to belong to two different sessions
- - Firefox support for both regular and incognito winodws (I want to do this as soon as possible, but it seems like it will be quite tricky)
+ - Firefox support for both regular and incognito winodws (I want to do this as soon as possible, but it seems like getting tab information from firefox windows is complicated)
