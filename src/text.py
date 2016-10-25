@@ -46,7 +46,7 @@ class TextUI:
         self.loop = True
         while self.loop:
             print('What would you like to do?')
-            actions[menu(list(actions.keys()))]()
+            actions[menu(list(sorted(actions.keys())))]()
 
     def stop(self):
         """ End the main menu loop. """
@@ -73,7 +73,9 @@ class TextUI:
         ses.save_session()
 
     def restore_session(self):
-        choice = menu(session.Session.list_sessions())
+        choice = menu(['Cancel']+session.Session.list_sessions())
+        if choice == 'Cancel':
+            return
         ses = session.Session(choice, True)
         ses.restore_session()
 

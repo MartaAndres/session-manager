@@ -7,7 +7,8 @@ import warnings
 
 class Session:
     """ Directory for saving sessions. """
-    home = "/home/mandres/Documents/git/session-manager/sessions/"
+
+    home = os.path.join(os.path.split(os.path.split(__file__)[0])[0],"sessions")
     if not os.path.isdir(home):
         os.mkdir(home)
 
