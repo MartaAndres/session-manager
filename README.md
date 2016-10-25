@@ -11,6 +11,7 @@ On ubuntu, you will need to install:
 
  - `wmctrl`
  - `xwininfo`
+ - `xclip`
 
 Both can be installed on ubuntu with `apt-get`.
 
