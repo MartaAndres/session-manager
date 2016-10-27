@@ -7,9 +7,9 @@ def command(cmd):
     """ Run a bash command and return the output as a string. """
     return subprocess.check_output(shlex.split(cmd)).decode('utf-8')
 
-def launch(cmd):
+def launch(cmd, stdin=None, stdout=None):
     """ Run a bash command without waiting for it to finish. """
-    return subprocess.Popen(shlex.split(cmd))
+    return subprocess.Popen(shlex.split(cmd), stdin=stdin, stdout=stdout)
 
 def window_input(window, strings):
     """
@@ -20,15 +20,19 @@ def window_input(window, strings):
     to send to the window.
     """
 
+    # Save previous windowfocus
     wid = command('xdotool getwindowfocus')
+
+    keys = []
     for s in strings:
         if isinstance(s,str):
             # Use unicode for every key
-            keys = ' '.join('U'+format(ord(x),'04x') for x in s)
-            cmd = 'xdotool windowfocus ' + window + ' key ' + ' ' + keys
-            command(cmd)
+            keys += ['U'+format(ord(x),'04x') for x in s]
         else:
-            cmd = 'xdotool windowfocus ' + window + ' key ' + '+'.join(s)
-            command(cmd)
+            keys.append('+'.join(s))
 
+    cmd = 'xdotool windowfocus ' + window + ' key ' + ' '.join(keys)
+    command(cmd)
+
+    # Reactivate previous window
     command('xdotool windowactivate '+wid)

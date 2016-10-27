@@ -49,8 +49,10 @@ class Session:
         self.add_window(hex(int(utils.command('xdotool selectwindow'))))
 
     def save_session(self):
+        print('Saving windows, please wait', end="", flush=True)
         windows = utils.command('wmctrl -lxp').strip().split('\n')
         for i,wid in enumerate(self.windows):
+            print('.', end="", flush=True)
             res = [x for x in windows if int(x.split()[0],16) == wid]
             if len(res) == 1:
                 res = res[0]
@@ -74,6 +76,7 @@ class Session:
             os.mkdir(directory)
 
             self.find_program(info).save(directory, info)
+        print('')
 
     def restore_session(self):
         for d in (x for x in os.listdir(self.directory)
