@@ -113,7 +113,7 @@ As of now, the session manager supports automatic save and restore for the follo
  - **evince**: Remembers the location of the open document to open it again later.
  <br> *Effect when saving*: none.
 
-- **gnome-terminal**: Remembers the working directory of the terminal, as well as saves the history to a file so that it can be recovered later.
+ - **gnome-terminal**: Remembers the working directory of the terminal, as well as saves the history to a file so that it can be recovered later.
  <br> *Effect when saving*: some commands will be executed in the terminal and the results will appear, although the history will be unaffected. Additionally, if there is any content in the command line it will remain but the cursor will be moved to the end and the content will be added to the bash kill-ring.
 
  - ***manual***: If a program is not supported, it can be saved manually by entering bash commands that the session manager will execute when restoring the session.
