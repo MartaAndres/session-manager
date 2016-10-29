@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from . import abstract, utils
+from programs import abstract, utils
 
 class EvinceProgram(abstract.AbstractProgram):
     def names():

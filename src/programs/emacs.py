@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from . import abstract, utils
+from programs import abstract, utils
 
 class EmacsProgram(abstract.AbstractProgram):
     def names():
         return ('emacs.Emacs',)
 
     def save(directory, info):
-        keys = (('meta','colon',), '(desktop-save "'+directory+'" t)', ('Return',))
+        keys = (('Ctrl','g'), ('meta','colon',), '(desktop-save "'+directory+'" t)', ('Return',))
         utils.window_input(info['wid'],keys)
 
     def restore(directory):

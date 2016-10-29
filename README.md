@@ -102,19 +102,27 @@ When done saving every window, the program will return to the main menu.
 
 ## Supported programs
 
+**Important**: The state of a program may be modified when saving it. Although the save functions attempt to affect the program as little as possible, some changes are unavoidable. Please read about the support for each program to know what the effect of saving may be.
+
+
 As of now, the session manager supports automatic save and restore for the following programs:
 
  - **emacs**: Uses the built-in `desktop-save` and `desktop-read` commands to save the state of the emacs session.
- - **evince**: Remembers the location of the open document to open it again later.
- - **gnome-terminal**: Remembers the working directory of the terminal, as well as saves the history to a file so that it can be recovered later.
+ <br> *Effect when saving*: any command input in the minibuffer will be cleared. There will also be output in the message buffer from the `desktop-save` command.
 
-More will be added progressively. In the meantime, any other program will need to be saved manually by entering bash commands that the program will execute on restore.
+ - **evince**: Remembers the location of the open document to open it again later.
+ <br> *Effect when saving*: none.
+
+- **gnome-terminal**: Remembers the working directory of the terminal, as well as saves the history to a file so that it can be recovered later.
+ <br> *Effect when saving*: some commands will be executed in the terminal and the results will appear, although the history will be unaffected. Additionally, if there is any content in the command line it will remain but the cursor will be moved to the end and the content will be added to the bash kill-ring.
+
+ - ***manual***: If a program is not supported, it can be saved manually by entering bash commands that the session manager will execute when restoring the session.
 
 **Note**: Program support will be added as needed, feel free to add support for any programs you use, or request support for said programs by opening an issue.
 
-## Bugs
+### Managing supported programs
 
-There is a bug in the current code for the `gnome-terminal` restore, where the history is not actually restored (or actually, the history is loaded but then the default history overwrites it). I have not yet found a way to fix this bug.
+The code for the supported programs is all in the `src/programs` directory. The file `utils.py` contains some functions that may be of use when saving a program, and the file `abstract.py` contains the abstract saver class, and any saver must be a subclass of the abstract class in order to be recognized by the session manager. Support for a program may be added by implementing the `names`, `save` and `restore` methods and putting the file with the code in the `src/programs` directory. Conversely, support for a program that is not desired can simply be disabled by removing the corresponding file from the directory.
 
 ## Pending features
 
